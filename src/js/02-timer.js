@@ -22,21 +22,33 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-  altInput: true,
-  altFormat: 'F j, Y',
-  dateFormat: 'Y-m-d',
+//   altInput: true,
+//   altFormat: 'F j, Y',
+//   dateFormat: 'Y-m-d',
 
   onClose(selectedDates) {
     console.log(selectedDates[0]);
 
     if (selectedDates[0] <= currentDate) {
       Notiflix.Notify.warning('Please choose a date in the future');
-      srartBtn.disabled = true;
+    //   srartBtn.disabled = true;
       return;
     }
-    srartBtn.disabled = false;
+    // srartBtn.disabled = false;
   },
 };
+
+input.addEventListener('change', ()=>{
+    const selectedDate = calendar.selectedDates[0]
+    if(selectedDate<currentDate){
+        srartBtn.disabled = true;
+        return
+    }
+    srartBtn.disabled = false;
+    
+    
+}
+)
 
 const calendar = flatpickr(input, options);
 let intervalId = null;
@@ -62,7 +74,7 @@ const startTimer = {
       const { days, hours, minutes, seconds } = convertMs(dateCount);
       console.log(`${days} : ${hours} : ${minutes} : ${seconds}`);
 
-      timeDays.texttextContent = days;
+      timeDays.textContent = days;
       timeHours.textContent = hours;
       timeMinutes.textContent = minutes;
       timeSeconds.textContent = seconds;
@@ -93,10 +105,14 @@ function addLeadingZero(value) {
 timer.style.display = 'flex'
 timer.style.gap = '30px'
 timer.style.fontSize = '40px'
-timer.style.backgroundColor = 'rgba(150, 233, 236, 0.583)'
-srartBtn.style.backgroundColor = 'rgba(40, 243, 9, 0.74)'
-srartBtn.style.fontSize = '20px'
-srartBtn.style.borderRadius = '10px'
+// timer.style.backgroundColor = 'rgba(150, 233, 236, 0.583)'
+srartBtn.style.backgroundColor = '#f5f4fa'
+timer.style.textShadow= '6px 3px 6px rgba(87,85,75,0.67)'
+srartBtn.style.fontSize = '30px';
+srartBtn.style.borderRadius = '8px'
+srartBtn.style.padding = '0 50px'
 input.style.fontSize = '30px';
 input.style.backgroundColor = '#f5f4fa';
-input.style.borderRadius = '4px';
+input.style.borderRadius = '8px';
+const body = document.querySelector('body');
+body.style.background= 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)'
