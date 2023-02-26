@@ -1,6 +1,6 @@
 import Notiflix from 'notiflix';
 // import { Notify } from 'notiflix/build/notiflix-notify-aio'
-import { Notify } from 'notiflix'
+// import { Notify } from 'notiflix'
 
 const form = document.querySelector('.form');
 form.addEventListener('submit', onFormSubmit);
@@ -10,7 +10,9 @@ form.addEventListener('submit', onFormSubmit);
 function onFormSubmit(evt) {
   evt.preventDefault();
 
-  const { delay, step, amount } = evt.currentTarget;
+  console.dir(evt.currentTarget.delay);
+
+  const {delay: {value:delay}, step: {value: step}, amount: {value:amount},} = evt.currentTarget
 
   console.log(amount, delay, step);
 
