@@ -40,12 +40,12 @@ const options = {
 
 input.addEventListener('change', ()=>{
     const selectedDate = calendar.selectedDates[0]
-    if(selectedDate<currentDate){
+    if(selectedDate<=currentDate){
+        Notiflix.Notify.warning('Please choose a date in the future')
         srartBtn.disabled = true;
         return
     }
     srartBtn.disabled = false;
-    
     
 }
 )
@@ -56,7 +56,9 @@ let intervalId = null;
 srartBtn.addEventListener('click', onStartBtnClick);
 
 function onStartBtnClick() {
+    Notiflix.Notify.success('START TIMER!')
   startTimer.start();
+
 }
 
 const startTimer = {
