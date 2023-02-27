@@ -6,14 +6,13 @@ const timeDays = document.querySelector('span[data-days]');
 const timeHours = document.querySelector('span[data-hours]');
 const timeMinutes = document.querySelector('span[data-minutes]');
 const timeSeconds = document.querySelector('span[data-seconds]');
-
 const timer = document.querySelector('.timer');
-
 const input = document.querySelector('#datetime-picker');
 const srartBtn = document.querySelector('button[data-start]');
-console.log(input);
+const body = document.querySelector('body');
 
 const currentDate = new Date();
+srartBtn.disabled = true;
 
 // console.log(date);
 
@@ -22,33 +21,36 @@ const options = {
   time_24hr: true,
   defaultDate: new Date(),
   minuteIncrement: 1,
-//   altInput: true,
-//   altFormat: 'F j, Y',
-//   dateFormat: 'Y-m-d',
 
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
-
-    if (selectedDates[0] <= currentDate) {
+    const selectedDate = calendar.selectedDates[0];
+    if (selectedDate <= currentDate) {
       Notiflix.Notify.warning('Please choose a date in the future');
-    //   srartBtn.disabled = true;
       return;
     }
-    // srartBtn.disabled = false;
   },
 };
 
-input.addEventListener('change', ()=>{
-    const selectedDate = calendar.selectedDates[0]
-    if(selectedDate<=currentDate){
-        Notiflix.Notify.warning('Please choose a date in the future')
-        srartBtn.disabled = true;
-        return
-    }
+input.addEventListener('change', onChangeDate);
+
+const changeCursor = () => {
+  if (srartBtn.disabled) {
+    srartBtn.style.cursor = 'not-allowed';
+  }
+};
+changeCursor();
+
+function onChangeDate() {
+  const selectedDate = calendar.selectedDates[0];
+
+  if (selectedDate > currentDate) {
     srartBtn.disabled = false;
-    
+    srartBtn.style.cursor = 'pointer';
+  } else {
+    srartBtn.disabled = true;
+  }
+  changeCursor();
 }
-)
 
 const calendar = flatpickr(input, options);
 let intervalId = null;
@@ -56,16 +58,17 @@ let intervalId = null;
 srartBtn.addEventListener('click', onStartBtnClick);
 
 function onStartBtnClick() {
-    Notiflix.Notify.success('START TIMER!')
+  Notiflix.Notify.success('START TIMER!');
   startTimer.start();
-
+  srartBtn.disabled = true;
+  changeCursor();
 }
 
 const startTimer = {
   start() {
     intervalId = setInterval(() => {
       const selectedDate = calendar.selectedDates[0];
-      const currentDate = Date.now()
+      const currentDate = Date.now();
       const dateCount = selectedDate - currentDate;
 
       if (dateCount <= 0) {
@@ -104,17 +107,16 @@ function addLeadingZero(value) {
   return String(value).padStart(2, '0');
 }
 
-timer.style.display = 'flex'
-timer.style.gap = '30px'
-timer.style.fontSize = '40px'
-// timer.style.backgroundColor = 'rgba(150, 233, 236, 0.583)'
-srartBtn.style.backgroundColor = '#f5f4fa'
-timer.style.textShadow= '6px 3px 6px rgba(87,85,75,0.67)'
+timer.style.display = 'flex';
+timer.style.gap = '30px';
+timer.style.fontSize = '40px';
+srartBtn.style.backgroundColor = '#f5f4fa';
+timer.style.textShadow = '6px 3px 6px rgba(87,85,75,0.67)';
 srartBtn.style.fontSize = '30px';
-srartBtn.style.borderRadius = '8px'
-srartBtn.style.padding = '0 50px'
+srartBtn.style.borderRadius = '8px';
+srartBtn.style.padding = '0 50px';
 input.style.fontSize = '30px';
 input.style.backgroundColor = '#f5f4fa';
 input.style.borderRadius = '8px';
-const body = document.querySelector('body');
-body.style.background= 'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)'
+body.style.background =
+  'radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%)';
